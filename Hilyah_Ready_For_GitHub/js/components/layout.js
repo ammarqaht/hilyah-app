@@ -109,26 +109,64 @@ export function DashboardLayout(children, user, route, store) {
 
     // Admin: Edit Mode floating toolbar
     const editModeBar = isAdm ? `
-        <div id="edit-mode-bar" style="
-            position: fixed; bottom: 40px; left: 40px;
-            z-index: 9990;
-            background: ${editMode ? '#E8C26D' : 'var(--bg-surface)'};
-            border: 1px solid ${editMode ? '#C8A24D' : 'var(--border-color)'};
-            border-radius: 40px; padding: 12px 24px;
-            display: flex; align-items: center; gap: 16px;
-            box-shadow: var(--shadow-md); transition: all 0.3s;
-        ">
-            <div style="width: 10px; height: 10px; border-radius: 50%; background: ${editMode ? '#5CC481' : 'var(--text-tertiary)'};"></div>
-            <span style="font-weight: 700; color: ${editMode ? '#6B4C00' : 'var(--text-primary)'}; font-size: 1rem;">
+        <div id="edit-mode-bar" class="edit-mode-widget">
+            <div class="edit-mode-dot"></div>
+            <span class="edit-mode-text">
                 ${editMode ? '✏️ وضع التعديل نشط' : 'وضع التعديل المباشر'}
             </span>
-            <button id="toggle-edit-mode" class="btn" style="
-                padding: 8px 20px; border-radius: 20px;
-                background: ${editMode ? 'rgba(0,0,0,0.15)' : 'var(--color-primary)'};
-                color: ${editMode ? '#6B4C00' : 'white'}; font-weight: 700; border: none;
-            ">${editMode ? 'إيقاف التعديل' : 'تفعيل'}</button>
+            <button id="toggle-edit-mode" class="edit-mode-btn">
+                ${editMode ? 'إيقاف التعديل' : 'تفعيل'}
+            </button>
         </div>
         <style>
+            .edit-mode-widget {
+                position: fixed; 
+                bottom: 40px; 
+                left: 40px;
+                z-index: 9990;
+                background: ${editMode ? '#E8C26D' : 'var(--bg-surface)'};
+                border: 1px solid ${editMode ? '#C8A24D' : 'var(--border-color)'};
+                border-radius: 40px; 
+                padding: 12px 24px;
+                display: flex; 
+                align-items: center; 
+                gap: 16px;
+                box-shadow: var(--shadow-md); 
+                transition: all 0.3s;
+            }
+            .edit-mode-dot {
+                width: 10px; height: 10px; border-radius: 50%; background: ${editMode ? '#5CC481' : 'var(--text-tertiary)'};
+                flex-shrink: 0;
+            }
+            .edit-mode-text {
+                font-weight: 700; color: ${editMode ? '#6B4C00' : 'var(--text-primary)'}; font-size: 1rem;
+            }
+            .edit-mode-btn {
+                padding: 8px 20px; border-radius: 20px;
+                background: ${editMode ? 'rgba(0,0,0,0.15)' : 'var(--color-primary)'};
+                color: ${editMode ? '#6B4C00' : 'white'}; font-weight: 700; border: none; cursor: pointer;
+            }
+
+            /* MOBILE RESPONSIVE FIX - Prevent logo overlap */
+            @media (max-width: 768px) {
+                .edit-mode-widget {
+                    bottom: 24px;
+                    left: 20px;
+                    padding: 8px 16px;
+                    gap: 10px;
+                }
+                .edit-mode-text {
+                    font-size: 0.85rem;
+                }
+                .edit-mode-btn {
+                    padding: 6px 14px;
+                    font-size: 0.85rem;
+                }
+                .edit-mode-dot {
+                    width: 8px; height: 8px;
+                }
+            }
+
             ${editMode ? `
             [data-editable] { position:relative; cursor:pointer; outline:2px dashed rgba(232,194,109,0.65); outline-offset:3px; border-radius:4px; transition:outline-color 0.2s; }
             [data-editable]:hover { outline-color:var(--color-primary-light); background:rgba(232,194,109,0.06); }
